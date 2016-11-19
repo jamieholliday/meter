@@ -1,0 +1,33 @@
+.meter_title {
+  padding: 10px;
+  background-color: #393232;
+}
+
+.merter_content {
+  padding: 20px;
+}
+
+.meter_arc {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 20px;
+}
+
+.meter_needle_group {
+  transform-origin: 180px 200px 0;
+  transition: transform 0.3s;
+}
+
+.meter_needle_circle {
+  fill: #ccc;
+}
+
+.meter_needle {
+  stroke: #ccc;
+  stroke-width: 5px;
+}
+
+.meter_needle_bg {
+  stroke: #282828;
+  stroke-width: 15px;
+}
