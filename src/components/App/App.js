@@ -8,6 +8,9 @@ class App extends Component {
       <div className="app">
         <Meter
           title="Currency"
+          min={100}
+          max={200}
+          value={150}
         />
       </div>
     );

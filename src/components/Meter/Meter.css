@@ -31,3 +31,14 @@
   stroke: #282828;
   stroke-width: 15px;
 }
+
+.meter_min,
+.meter_max {
+  fill: #ccc;
+  font-size: 20px;
+}
+
+.meter_value {
+  fill: #ccc;
+  font-size: 36px;
+}

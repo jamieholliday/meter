@@ -23,4 +23,14 @@ describe('Meter', ()=> {
     const wrapper = shallow(<Meter error />);
     expect(wrapper.find('.meter_content').childAt(0).is('Error')).toBe(true);
   });
+
+  it('should display the min value', () => {
+    const wrapper = shallow(<Meter min={100} />);
+    expect(wrapper.find('.meter_min').text()).toBe('100');
+  });
+
+  it('should display the max value', () => {
+    const wrapper = shallow(<Meter max={200} />);
+    expect(wrapper.find('.meter_value').text()).toBe('200');
+  });
 })
