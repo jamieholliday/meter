@@ -87,16 +87,14 @@ const renderValue = (val, unit, type) => {
 }
 
 const renderNeedle = (min, max, value) => {
-  if (min && max && value) {
-    const rotation = calculateRotation(min, max, value);
-    return (
-      <g className="meter_needle_group" style={{transform: `rotate(${rotation}deg)`}}>
-      <path className="meter_needle_bg" d="M55,250 L180,250"></path>
-      <path className="meter_needle" d="M60,250 L180,250"></path>
-      <circle className="meter_needle_circle" cx="180" cy="250" r="10"></circle>
-      </g>
-    )
-  }
+  const rotation = calculateRotation(min, max, value);
+  return (
+    <g className="meter_needle_group" style={{transform: `rotate(${rotation}deg)`}}>
+    <path className="meter_needle_bg" d="M55,250 L180,250"></path>
+    <path className="meter_needle" d="M60,250 L180,250"></path>
+    <circle className="meter_needle_circle" cx="180" cy="250" r="10"></circle>
+    </g>
+  )
 }
 
 const renderArc = () => {
@@ -112,17 +110,19 @@ const renderArc = () => {
 
 const renderSvg = (props) => {
   const {min, max, value, unit, type} = props;
-  return (
-    <svg className="meter_svg" viewBox="0 0 360 320">
+  if (min && max && value) {
+    return (
+      <svg className="meter_svg" viewBox="0 0 360 320">
       {renderValue(value, unit, type)}
       <g className="meter_dial">
-        {renderArc()}
-        {renderNeedle(min, max, value)}
-        {renderMin(min, unit, type)}
-        {renderMax(max, unit, type)}
+      {renderArc()}
+      {renderNeedle(min, max, value)}
+      {renderMin(min, unit, type)}
+      {renderMax(max, unit, type)}
       </g>
-    </svg>
-  )
+      </svg>
+    )
+  }
 }
 
 const renderError = () => {
