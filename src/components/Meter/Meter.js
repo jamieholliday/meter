@@ -4,7 +4,6 @@ import './Meter.css';
 
 const startAngle = 270;
 const endAngle = 90;
-const rotate = 45;
 
 const calculateArcCoords = (centerX, centerY, radius, angleInDegrees) => {
   const angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
@@ -15,43 +14,94 @@ const calculateArcCoords = (centerX, centerY, radius, angleInDegrees) => {
   };
 }
 
-const renderMin = (val) => {
-  if (val) {
+const calculateRotation = (min, max, value) => {
+  let rotation = 0;
+  if (value > max) {
+    rotation = 180
+  } else if(value <= max && value >= min) {
+    rotation = ((value - min) / (max - min)) * 180
+  }
+  return rotation;
+}
+
+const getSymbol = (unit) => {
+  // this is a naive approach. This should be delegated to a library. But but work for this use case
+  switch (unit) {
+    case 'USD':
+      return '$';
+    case 'GBP':
+      return '£';
+    case 'EUR':
+      return '€'
+    case 'CHF':
+      return 'CHF'
+    default:
+      return '';
+  }
+}
+
+const renderUnit = (val, unit, type) => {
+  if (unit) {
+    let symbol = unit;
+    // convert the type only if its a currency
+    if (type === 'currency') {
+      symbol = getSymbol(unit);
+    }
     return (
-      <text className="meter_min" x={42} y={230}>{val}</text>
+      <tspan className="meter_text_unit">{symbol}</tspan>
     )
   }
 }
 
-const renderMax = (val) => {
+const renderMin = (val, unit, type) => {
   if (val) {
     return (
-      <text className="meter_max" x={284} y={230}>{val}</text>
+      <text className="meter_min" x={34} y={280}>
+        {renderUnit(val, unit, type)}
+        <tspan className="meter_text_val">{val}</tspan>
+      </text>
     )
   }
 }
 
-const renderValue = (val) => {
+const renderMax = (val, unit, type) => {
   if (val) {
     return (
-      <text className="meter_value" x={150} y={50}>{val}</text>
+      <text className="meter_max" x={277} y={280}>
+        {renderUnit(val, unit, type)}
+        <tspan className="meter_text_val">{val}</tspan>
+      </text>
     )
   }
 }
 
-const renderNeedle = () => {
-  return (
-    <g className="meter_needle_group" style={{transform: `rotate(${rotate}deg)`}}>
-      <path className="meter_needle_bg" d="M55,200 L180,200"></path>
-      <path className="meter_needle" d="M60,200 L180,200"></path>
-      <circle className="meter_needle_circle" cx="180" cy="200" r="10"></circle>
-    </g>
-  )
+const renderValue = (val, unit, type) => {
+  if (val) {
+    return (
+      <text className="meter_value" x={140} y={100}>
+        {renderUnit(val, unit, type)}
+        <tspan className="meter_text_val">{val}</tspan>
+      </text>
+    )
+  }
+}
+
+const renderNeedle = (min, max, value) => {
+  if (min && max && value) {
+    const rotation = calculateRotation(min, max, value);
+    return (
+      <g className="meter_needle_group" style={{transform: `rotate(${rotation}deg)`}}>
+      <path className="meter_needle_bg" d="M55,250 L180,250"></path>
+      <path className="meter_needle" d="M60,250 L180,250"></path>
+      <circle className="meter_needle_circle" cx="180" cy="250" r="10"></circle>
+      </g>
+    )
+  }
 }
 
 const renderArc = () => {
   const x = 180;
-  const y = 200;
+  const y = 250;
   const radius = 120;
   const start = calculateArcCoords(x, y, radius, endAngle);
   const end = calculateArcCoords(x, y, radius, startAngle);
@@ -60,15 +110,16 @@ const renderArc = () => {
   )
 }
 
-const renderSvg = (min, max, value) => {
+const renderSvg = (props) => {
+  const {min, max, value, unit, type} = props;
   return (
     <svg className="meter_svg" viewBox="0 0 360 320">
-      {renderValue(value)}
+      {renderValue(value, unit, type)}
       <g className="meter_dial">
         {renderArc()}
-        {renderNeedle()}
-        {renderMin(min)}
-        {renderMax(max)}
+        {renderNeedle(min, max, value)}
+        {renderMin(min, unit, type)}
+        {renderMax(max, unit, type)}
       </g>
     </svg>
   )
@@ -81,17 +132,23 @@ const renderError = () => {
 }
 
 const Meter = (props) => {
-  const {title, error, min, max, value} = props;
+  const {title, error, loading} = props;
   return (
     <div className="widget">
-      {
-        title &&
-        <header className="meter_title">
+      <header className="meter_title">
+        <div className="meter_title_text">
           {title}
-        </header>
-      }
+        </div>
+        {
+          loading && (
+            <div className="meter_loader">
+              <div className="meter_loader_spinner" />
+            </div>
+          )
+        }
+      </header>
       <div className="meter_content">
-        {error ? renderError() : renderSvg(min, max, value)}
+        {error ? renderError() : renderSvg(props)}
       </div>
     </div>
   );
@@ -102,7 +159,10 @@ Meter.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   value: PropTypes.number,
+  unit: PropTypes.string,
+  type: PropTypes.oneOf(['currency']),
   error: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import styles from './Error.css';
+import './Error.css';
 
 const Error = (props) => {
   const {message} = props;

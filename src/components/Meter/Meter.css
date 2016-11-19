@@ -1,10 +1,59 @@
 .meter_title {
-  padding: 10px;
+  display: flex;
   background-color: #393232;
 }
 
-.merter_content {
-  padding: 20px;
+.meter_title_text {
+  padding: 10px;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meter_loader {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.meter_loader_spinner,
+.meter_loader_spinner:after {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.meter_loader_spinner {
+  position: relative;
+  border-top: 10px solid rgba(255, 255, 255, 0.2);
+  border-right: 10px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 10px solid rgba(255, 255, 255, 0.2);
+  border-left: 10px solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: spin 1.1s infinite linear;
+  animation: spin 1.1s infinite linear;
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 .meter_arc {
@@ -14,7 +63,7 @@
 }
 
 .meter_needle_group {
-  transform-origin: 180px 200px 0;
+  transform-origin: 180px 250px 0;
   transition: transform 0.3s;
 }
 
@@ -32,13 +81,20 @@
   stroke-width: 15px;
 }
 
-.meter_min,
-.meter_max {
+.meter_text_val {
   fill: #ccc;
   font-size: 20px;
 }
 
-.meter_value {
+.meter_text_unit {
   fill: #ccc;
+  font-size: 14px;
+}
+
+.meter_value .meter_text_val {
   font-size: 36px;
+}
+
+.meter_value .meter_text_unit {
+  font-size: 24px;
 }
