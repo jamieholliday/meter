@@ -25,7 +25,7 @@ const calculateRotation = (min, max, value) => {
 }
 
 const getSymbol = (unit) => {
-  // this is a naive approach. This should be delegated to a library. But but work for this use case
+  // this is a naive approach. This should be delegated to a library. But should work for this use case
   switch (unit) {
     case 'USD':
       return '$';
@@ -132,7 +132,7 @@ const renderError = () => {
 }
 
 const Meter = (props) => {
-  const {title, error, loading} = props;
+  const {title, error, loading, min, max, value} = props;
   return (
     <div className="widget">
       <header className="meter_title">
@@ -148,7 +148,7 @@ const Meter = (props) => {
         }
       </header>
       <div className="meter_content">
-        {error ? renderError() : renderSvg(props)}
+        {error  ? renderError() : renderSvg(props)}
       </div>
     </div>
   );

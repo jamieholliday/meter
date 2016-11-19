@@ -25,18 +25,18 @@ describe('Meter', ()=> {
   });
 
   it('should display the min value', () => {
-    const wrapper = shallow(<Meter min={100} />);
+    const wrapper = shallow(<Meter min={100} max={200} value={150}/>);
     expect(wrapper.find('.meter_min .meter_text_val').text()).toBe('100');
   });
 
   it('should display the max value', () => {
-    const wrapper = shallow(<Meter max={200} />);
+    const wrapper = shallow(<Meter min={100} max={200} value={150} />);
     expect(wrapper.find('.meter_max .meter_text_val').text()).toBe('200');
   });
 
   it('should display the current value', () => {
-    const wrapper = shallow(<Meter value={200} />);
-    expect(wrapper.find('.meter_value .meter_text_val').text()).toBe('200');
+    const wrapper = shallow(<Meter min={100} max={200} value={150}/>);
+    expect(wrapper.find('.meter_value .meter_text_val').text()).toBe('150');
   });
 
   it('should display currency symbol', () => {
