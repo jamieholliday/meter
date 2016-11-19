@@ -18,4 +18,9 @@ describe('Meter', ()=> {
     const wrapper = shallow(<Meter min={178} max={772} value={59} />);
     expect(wrapper.find('.meter_content').childAt(0).is('svg')).toBe(true);
   });
+
+  it('should render an error', () => {
+    const wrapper = shallow(<Meter error />);
+    expect(wrapper.find('.meter_content').childAt(0).is('Error')).toBe(true);
+  });
 })

@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import Error from '../Error/Error';
 import './Meter.css';
 
 const x = 180;
@@ -46,6 +47,12 @@ const renderSvg = () => {
   )
 }
 
+const renderError = () => {
+  return (
+    <Error message="Meter content could not be loaded" />
+  );
+}
+
 const Meter = (props) => {
   const {title, error} = props;
   return (
@@ -57,9 +64,7 @@ const Meter = (props) => {
         </header>
       }
       <div className="meter_content">
-        {
-          renderSvg()
-        }
+        {error ? renderError() : renderSvg()}
       </div>
     </div>
   );
