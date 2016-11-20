@@ -2,9 +2,6 @@ import React, {PropTypes} from 'react';
 import Error from '../Error/Error';
 import './Meter.css';
 
-const startAngle = 270;
-const endAngle = 90;
-
 const calculateArcCoords = (centerX, centerY, radius, angleInDegrees) => {
   const angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
 
@@ -98,6 +95,8 @@ const renderNeedle = (min, max, value) => {
 }
 
 const renderArc = () => {
+  const startAngle = 270;
+  const endAngle = 90;
   const x = 180;
   const y = 250;
   const radius = 120;
@@ -113,13 +112,13 @@ const renderSvg = (props) => {
   if (min && max && value) {
     return (
       <svg className="meter_svg" viewBox="0 0 360 320">
-      {renderValue(value, unit, type)}
-      <g className="meter_dial">
-      {renderArc()}
-      {renderNeedle(min, max, value)}
-      {renderMin(min, unit, type)}
-      {renderMax(max, unit, type)}
-      </g>
+        {renderValue(value, unit, type)}
+        <g className="meter_dial">
+          {renderArc()}
+          {renderNeedle(min, max, value)}
+          {renderMin(min, unit, type)}
+          {renderMax(max, unit, type)}
+        </g>
       </svg>
     )
   }
@@ -132,7 +131,7 @@ const renderError = () => {
 }
 
 const Meter = (props) => {
-  const {title, error, loading, min, max, value} = props;
+  const {title, error, loading} = props;
   return (
     <div className="widget">
       <header className="meter_title">
